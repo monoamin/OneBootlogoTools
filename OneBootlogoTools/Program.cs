@@ -17,11 +17,13 @@ namespace OneBootlogoTools
 
             var bootLogo = (Bitmap)Image.FromFile(Path.Combine(_inputDir,"bootlogo.png"));
             var fastBootLogo = (Bitmap)Image.FromFile(Path.Combine(_inputDir, "fastboot.png"));
+            var lowBatteryLogo = (Bitmap)Image.FromFile(Path.Combine(_inputDir, "lowbattery.png"));
             
             byte[] logo = File.ReadAllBytes(Path.Combine(_dataDir, "logo-original.bin"));
 
             List<byte> bootLogoRaw = ConvertToRaw("bootlogo.raw", bootLogo);
             List<byte> fastBootLogoRaw = ConvertToRaw("fastboot.raw", fastBootLogo);
+            List<byte> lowBatteryLogoRaw = ConvertToRaw("lowbattery.raw", lowBatteryLogo);
 
             for (int i = 0; i < logo.Length; i++)
             {
@@ -33,6 +35,11 @@ namespace OneBootlogoTools
                 if (i >= 7234560 && i < 7549560)
                 {
                     logo[i] = fastBootLogoRaw[i - 7234560];
+                }
+                
+                if (i >= 7564288 && i < 9642478)
+                {
+                    logo[i] = lowBatteryLogoRaw[i - 7564288];
                 }
             }
 
